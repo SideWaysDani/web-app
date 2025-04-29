@@ -1,11 +1,13 @@
-const express = require('express');
+import express from 'express';
+import config from './config/index.js';
+import routes from './routes/index.js';
+
 const app = express();
-const port = 3000;
 
-app.get('/app-name', (req, res) => {
-    res.send('QuietAlpha');
-});
+app.use('/', routes);
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+app.listen(config.port, () => {
+  let a= 1;
+  a++
+  console.log(`Server is running at http://localhost:${config.port}`);
 });

@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
 router.get('/app-name', (req, res) => {
-    res.send('QuietAlpha');
+  res.send({ name: 'QuietAlpha' });
 });
 
-module.exports = router;
+export default router;
