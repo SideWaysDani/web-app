@@ -1,12 +1,11 @@
 import React from 'react';
-import LandingPage from './components/LandingPage';
+import ComingSoon from './components/ComingSoon';
+import './App.css';
 
-const App: React.FC = () => {
+function App() {
   return (
-    <div>
-      <LandingPage />
-    </div>
+    <ComingSoon />
   );
-};
+}
 
 export default App;

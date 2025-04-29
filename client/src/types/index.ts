@@ -1,1 +1,0 @@
-// This file exports any TypeScript types or interfaces used in the client application.
