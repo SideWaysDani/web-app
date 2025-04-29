@@ -11,12 +11,12 @@ export default [
       ecmaVersion: 2022,
       sourceType: 'module',
       globals: {
-        ...globals.node  // This adds all Node.js globals
-      }
+        ...globals.node, // This adds all Node.js globals
+      },
     },
     rules: {
       'no-console': 'off',
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    }
-  }
+    },
+  },
 ];
