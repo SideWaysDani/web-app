@@ -1,0 +1,51 @@
+
+trigger:
+  branches:
+    include:
+      - main
+
+pr:
+  branches:
+    exclude:
+      - '*'
+
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  # Variables for the EC2 instance
+  EC2_HOST: 'quietalpha.ai'
+  EC2_USER: 'ec2-user'
+  EC2_KEY: '$(ec2Key)'  # Secure file containing your SSH private key
+
+steps:
+- task: DownloadSecureFile@1
+  name: sshKey
+  inputs:
+    secureFile: 'QuietAlphaKeyPair.pem'
+
+
+- script: |
+    chmod 400 $(sshKey.secureFilePath)
+    ssh -o StrictHostKeyChecking=no -i $(sshKey.secureFilePath) $(EC2_USER)@$(EC2_HOST) '
+      echo "Starting deployment process..."
+      
+      # Navigate to project directory and pull latest changes
+      cd /home/ec2-user/web-app
+      git pull origin main
+      
+      # Build client application
+      echo "Building client application..."
+      cd client
+      npm install
+      npm run build
+      
+      # Restart server if needed
+      cd ../server
+      npm install
+      pm2 restart all
+      
+      echo "Deployment completed successfully"
+    '
+  displayName: 'Deploy and Build Application'
