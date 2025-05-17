@@ -1,6 +1,7 @@
 import express from 'express';
 import config from './config/index.js';
 import routes from './routes/index.js';
+import signupRouter from './routes/signup.js';
 
 const app = express();
 
@@ -10,16 +11,17 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/', routes);
+app.use('/signup', signupRouter);
 
 // Error handling middleware
-app.use((err, req, res) => {
+app.use((err, req, res, _next) => {
   console.error(err.stack);
-  res.json({ error: 'Something broke!' }).status(500);
+  res.status(500).send({ error: 'Something broke!' });
 });
 
 // 404 handler
 app.use((req, res) => {
-  res.json({ error: 'Not Found' }).status(404);
+  res.status(404).send({ error: 'Not Found' });
 });
 
 const server = app.listen(config.port, () => {
